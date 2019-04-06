@@ -19,27 +19,28 @@ for i in lines:
 
 newList = [['userid', 'password scheme', 'number of total logins', 'number of successful', "number of failed",
             "time for successful", "time for failed"]]
-user = lines[1][1]
+user = 'ast103'
 success = 0
 fails = 0
+scheme = 'text21'
 for i in lines:
-    if i[1] != user:
-        user = i[1]
-        newList.append([i[1]])
-        if i[3] == 'testtextrandom':
-            newList[len(newList)-1].append('text21')
-        else:
-            newList[len(newList)-1].append('imagept21')
-        newList[len(newList) - 1].append(str(success+fails))
-        newList[len(newList) - 1].append(str(success))
-        newList[len(newList) - 1].append(str(fails))
-        success = 0
-        fails = 0
-    else:
+    if i[1] == user:
         if i[6] == "success":
             success += 1
         elif i[6] == "failure":
             fails += 1
+    else:
+        newList.append([user])
+        newList[len(newList) - 1].append(scheme)
+        newList[len(newList) - 1].append(str(success+fails))
+        newList[len(newList) - 1].append(str(success))
+        newList[len(newList) - 1].append(str(fails))
+        user = i[1]
+        if i[3] == 'testpasstiles':
+            scheme = 'imagept21'
+        success = 0
+        fails = 0
+
 
 print(newList)
 writer = csv.writer(open('modifieddata.csv', 'w', newline=''))
